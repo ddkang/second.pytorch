@@ -45,6 +45,17 @@ class LRSchedulerStep(object):
             if step >= start:
                 self.optimizer.mom = func((step - start) / (end - start))
 
+class ManualStepping(object):
+    def __init__(self, fai_optimizer, boundaries, rates, total_steps):
+        self.optimizer = fai_optimizer
+        self.boundaries = boundaries
+        self.rates = rates
+        self.total_steps = total_steps
+    def step(self, step):
+        for idx, boundary in enumerate(self.boundaries):
+            if step >= boundary * self.total_steps:
+                self.optimizer.lr = self.rates[idx]
+
 
 def annealing_cos(start, end, pct):
     # print(pct, start, end)

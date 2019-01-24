@@ -47,6 +47,7 @@ message LearningRate {
   oneof learning_rate {
     MultiPhase multi_phase = 1;
     OneCycle one_cycle = 2;
+    ManualStepping manual_stepping = 3;
   }
 }
 
@@ -65,4 +66,13 @@ message OneCycle {
   repeated float moms = 2;
   float div_factor = 3;
   float pct_start = 4;
+}
+
+message ManualStepping {
+  repeated LRStep lr_steps = 1;
+}
+
+message LRStep {
+  float boundary = 1;
+  float rate = 2;
 }

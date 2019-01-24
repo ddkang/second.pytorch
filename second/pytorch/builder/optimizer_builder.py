@@ -50,7 +50,7 @@ def build(optimizer_config, net, name=None, mixed=False, loss_scale=512.0):
         optimizer_func = partial(
             torch.optim.SGD,
             momentum=config.momentum_optimizer_value,
-            eps=config.epsilon)
+            lr=0.1) # FIXME
 
     if optimizer_type == 'adam_optimizer':
         config = optimizer_config.adam_optimizer

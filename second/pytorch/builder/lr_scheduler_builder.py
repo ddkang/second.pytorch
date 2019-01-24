@@ -57,6 +57,14 @@ def _create_learning_rate_scheduler(learning_rate_config, optimizer, total_step)
     lr_scheduler = lsf.LRSchedulerStep(
       optimizer,total_step, lr_phases, mom_phases)
 
+  if learning_rate_type == 'manual_stepping':
+    config = learning_rate_config.manual_stepping
+    boundaries, rates = [], []
+    for step_cfg in config.lr_steps:
+        boundaries.append(step_cfg.boundary)
+        rates.append(step_cfg.rate)
+    lr_scheduler = lsf.ManualStepping(optimizer, boundaries, rates, total_step)
+
   if learning_rate_type == 'one_cycle':
     config = learning_rate_config.one_cycle
     lr_scheduler = lsf.OneCycle(
